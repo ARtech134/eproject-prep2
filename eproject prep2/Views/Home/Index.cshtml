@@ -1,8 +1,87 @@
-﻿@{
+﻿@model IEnumerable<eproject_prep2.Models.Product>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Our Products</h2>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-lg-3 mb-4">
+                <div class="card shadow-sm h-100 product-card">
+                    
+                    <!-- Image -->
+                    <img src="@item.Imagepath" class="card-img-top product-img" alt="Product Image" />
+
+                    <!-- Body -->
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@item.Name</h5>
+
+                        <p class="card-text text-muted small">
+                            @item.Description
+                        </p>
+
+                        <div class="mt-auto">
+                            <h6 class="text-primary fw-bold mb-3">
+                                Rs. @item.Price
+                            </h6>
+
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-between">
+                                
+                                <!-- Details -->
+                                <a asp-controller="Products"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-primary btn-sm">
+                                    Details
+                                </a>
+
+                                <!-- Add to Cart -->
+                                <a asp-controller="Cart"
+                                       asp-action="AddToCart"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-primary btn-sm">
+                                    Add to Cart
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    .product-card {
+        border: none;
+        border-radius: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+    .product-img {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .card-title {
+        font-weight: 600;
+    }
+
+    .card-text {
+        height: 60px;
+        overflow: hidden;
+    }
+</style>

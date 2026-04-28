@@ -1,14 +1,23 @@
+using eproject_prep2.Data;
 using eproject_prep2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace eproject_prep2.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        readonly eproject_prep2Context _context;
+        public HomeController(eproject_prep2Context db)
         {
-            return View();
+            _context =db ;
+        }
+        public IActionResult Index()
+
+        {
+            var products = _context.Products.ToList();
+            return View(products);
         }
 
         public IActionResult Privacy()
